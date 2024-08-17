@@ -1,0 +1,26 @@
+---
+import ConlistItem from './ConlistItem.astro';
+import { type Event } from '../event';
+import { type LocationFormat } from '../format';
+import { type AstroComponentFactory } from 'astro/runtime/server/index.js';
+
+interface Props {
+	events: Event[];
+	eventHeading: string | AstroComponentFactory;
+	locationFormat?: LocationFormat;
+}
+
+const { events, eventHeading, locationFormat } = Astro.props;
+
+const undatedEvents = events.filter((e) => !e.startDate);
+---
+
+{
+	undatedEvents.map((e) => (
+		<ConlistItem
+			event={e}
+			heading={eventHeading}
+			locationFormat={locationFormat}
+		/>
+	))
+}

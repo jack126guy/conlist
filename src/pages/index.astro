@@ -1,0 +1,62 @@
+---
+import ConlistPast from '../components/ConlistPast.astro';
+import ConlistFuture from '../components/ConlistFuture.astro';
+import ConlistUndated from '../components/ConlistUndated.astro';
+import { type Event } from '../event';
+import events from '../demo-events.json';
+
+const parsedEvents: Event[] = events.map((e) => ({
+	...e,
+	startDate: e.startDate ? new Date(e.startDate) : undefined,
+	endDate: e.endDate ? new Date(e.endDate) : undefined,
+}));
+const dateCutoff = new Date('2012-01-01');
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Conlist Demo</title>
+	</head>
+	<body>
+		<h1>Conlist Demo</h1>
+		<h2>Future Events</h2>
+		<ConlistFuture
+			events={parsedEvents}
+			dateCutoff={dateCutoff}
+			eventHeading="h3"
+		/>
+		<h2>Undated Events</h2>
+		<ConlistUndated events={parsedEvents} eventHeading="h3" />
+		<h2>Past Events by Year</h2>
+		<ConlistPast
+			events={parsedEvents}
+			dateCutoff={dateCutoff}
+			yearHeading="h3"
+			eventHeading="h4"
+		/>
+	</body>
+</html>
+
+<style is:global>
+	body {
+		font-family: sans-serif;
+		max-width: 50em;
+		margin: 0.75em auto;
+	}
+	.conlist-item[data-genre='Example'] .conlist-name {
+		color: #0000ff;
+	}
+	/* Duplicate classes for specificity to override component styles */
+	.conlist-tags.conlist-tags li[data-extra-tag='Special Guest'] {
+		background-color: #88ff88;
+	}
+	.conlist-item[data-status='Not Attending'] .conlist-status.conlist-status {
+		background-color: #ff8888;
+	}
+	.conlist-item[data-status='Tentative'] .conlist-status.conlist-status {
+		background-color: #ffff44;
+	}
+</style>

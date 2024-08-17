@@ -1,0 +1,40 @@
+---
+import ConlistItem from './ConlistItem.astro';
+import { type Event } from '../event';
+import { type DateFormat, type LocationFormat } from '../format';
+import { type AstroComponentFactory } from 'astro/runtime/server/index.js';
+
+interface Props {
+	events: Event[];
+	dateCutoff: Date;
+	eventHeading: string | AstroComponentFactory;
+	dateFormat?: DateFormat;
+	locationFormat?: LocationFormat;
+}
+
+const {
+	events,
+	dateCutoff,
+	eventHeading: EventHeading,
+	dateFormat,
+	locationFormat,
+} = Astro.props;
+
+const futureEvents: (Event & { startDate: Date })[] = events.filter(
+	(e): e is Event & { startDate: Date } =>
+		!!e.startDate && e.startDate >= dateCutoff
+);
+// Sort by start date
+futureEvents.sort((a, b) => (a.startDate > b.startDate ? 1 : -1));
+---
+
+{
+	futureEvents.map((e) => (
+		<ConlistItem
+			event={e}
+			heading={EventHeading}
+			dateFormat={dateFormat}
+			locationFormat={locationFormat}
+		/>
+	))
+}

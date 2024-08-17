@@ -1,0 +1,89 @@
+---
+import { type Event } from '../event';
+import {
+	type DateFormat,
+	type LocationFormat,
+	formatDate,
+	formatLocation,
+} from '../format';
+import { type AstroComponentFactory } from 'astro/runtime/server/index.js';
+
+interface Props {
+	event: Event;
+	heading: string | AstroComponentFactory;
+	dateFormat?: DateFormat;
+	locationFormat?: LocationFormat;
+}
+const { event, heading: Heading, dateFormat, locationFormat } = Astro.props;
+---
+
+<section
+	class="conlist-item"
+	data-status={event.status}
+	data-genre={event.genre}
+>
+	<Heading class="conlist-name">{event.name}</Heading>
+	{event.genre ? <p class="conlist-genre">({event.genre})</p> : null}
+	<ul class="conlist-tags">
+		{
+			event.status !== 'Attending' ? (
+				<li class="conlist-status">
+					<strong>{event.status}</strong>
+				</li>
+			) : null
+		}
+		{(event.extraTags || []).map((t) => <li data-extra-tag={t}>{t}</li>)}
+	</ul>
+	{event.notes ? <p class="conlist-note">({event.notes})</p> : null}
+	{
+		event.startDate ? (
+			<p class="conlist-date">
+				{formatDate(dateFormat, event.startDate, event.endDate)}
+			</p>
+		) : null
+	}
+	{
+		event.location ? (
+			<p class="conlist-location">
+				{formatLocation(locationFormat, event.location)}
+			</p>
+		) : null
+	}
+</section>
+
+<style>
+	.conlist-item {
+		line-height: 1.5;
+		margin: 0.75em 0em;
+	}
+	.conlist-item * {
+		margin: 0em;
+	}
+	.conlist-tags {
+		list-style-type: none;
+		padding: 0em;
+	}
+	.conlist-name,
+	.conlist-genre,
+	.conlist-tags,
+	.conlist-tags li {
+		display: inline-block;
+		vertical-align: middle;
+	}
+	.conlist-genre {
+		margin: 0.25em;
+	}
+	.conlist-tags li {
+		font-size: 0.75em;
+		margin: 0.25em;
+		padding: 0.5em;
+		color: #000000;
+		background-color: #cccccc;
+	}
+	.conlist-item[data-status='Tentative'] .conlist-name {
+		font-style: italic;
+	}
+	.conlist-item[data-status='Not Attending'] .conlist-name {
+		text-decoration: line-through;
+	}
+</style>

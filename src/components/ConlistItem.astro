@@ -31,8 +31,7 @@ const { event, heading: Heading, dateFormat, locationFormat } = Astro.props;
 					<strong>{event.status}</strong>
 				</li>
 			) : null
-		}
-		{(event.extraTags || []).map((t) => <li data-extra-tag={t}>{t}</li>)}
+		}{(event.extraTags || []).map((t) => <li data-extra-tag={t}>{t}</li>)}
 	</ul>
 	{event.notes ? <p class="conlist-note">({event.notes})</p> : null}
 	{

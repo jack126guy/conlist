@@ -1,5 +1,5 @@
 import ConlistPast from '../src/components/ConlistPast.astro';
-import { demoEvents } from '../src/demo-events';
+import { demoEvents } from './demo-events';
 import { renderToFragment } from './render';
 import { describe, it, expect, assert } from 'vitest';
 

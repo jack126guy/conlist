@@ -1,5 +1,5 @@
 import ConlistUndated from '../src/components/ConlistUndated.astro';
-import { demoEvents } from '../src/demo-events';
+import { demoEvents } from './demo-events';
 import { renderToFragment } from './render';
 import { describe, it, expect } from 'vitest';
 

@@ -27,7 +27,7 @@ describe('ConlistFuture', () => {
 		let currentEventIndex = 0;
 		headings.each((_, headingElement) => {
 			const heading = fragment(headingElement);
-			const headingTag = heading.prop('tagName').toLowerCase();
+			const headingTag = heading.prop('tagName')!.toLowerCase();
 			if (headingTag === componentProps.yearHeading) {
 				currentYear = Number(heading.text());
 			} else if (headingTag === componentProps.eventHeading) {

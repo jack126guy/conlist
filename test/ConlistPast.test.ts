@@ -10,8 +10,8 @@ const componentProps = {
 	eventHeading: 'h2',
 };
 
-describe('ConlistFuture', () => {
-	it('renders future events', async () => {
+describe('ConlistPast', () => {
+	it('renders past events', async () => {
 		const fragment = await renderToFragment(ConlistPast, componentProps);
 
 		const pastEvents = demoEvents.filter(

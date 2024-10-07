@@ -17,4 +17,25 @@ describe('ConlistUndated', () => {
 			expect(heading.text()).to.equal(undatedEvents[i]!.name);
 		});
 	});
+
+	it('renders empty message', async () => {
+		const props = { ...componentProps, events: [] };
+		const slots = { 'empty-message': 'No undated events' };
+
+		const fragment = await renderToFragment(ConlistUndated, props, slots);
+
+		expect(fragment.text()).to.contain(slots['empty-message']);
+	});
+
+	it('does not render empty message with undated events', async () => {
+		const slots = { 'empty-message': 'No undated events' };
+
+		const fragment = await renderToFragment(
+			ConlistUndated,
+			componentProps,
+			slots
+		);
+
+		expect(fragment.text()).to.not.contain(slots['empty-message']);
+	});
 });

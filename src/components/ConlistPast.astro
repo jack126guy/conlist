@@ -32,17 +32,21 @@ const pastEventsByYear = getEventsByYear(pastEvents);
 ---
 
 {
-	pastEventsByYear.map(({ year, events }) => (
-		<>
-			<YearHeading>{year}</YearHeading>
-			{events.map((e) => (
-				<ConlistItem
-					event={e}
-					heading={EventHeading}
-					dateFormat={dateFormat}
-					locationFormat={locationFormat}
-				/>
-			))}
-		</>
-	))
+	pastEventsByYear.length > 0 ? (
+		pastEventsByYear.map(({ year, events }) => (
+			<>
+				<YearHeading>{year}</YearHeading>
+				{events.map((e) => (
+					<ConlistItem
+						event={e}
+						heading={EventHeading}
+						dateFormat={dateFormat}
+						locationFormat={locationFormat}
+					/>
+				))}
+			</>
+		))
+	) : (
+		<slot name="empty-message" />
+	)
 }

@@ -16,11 +16,15 @@ const undatedEvents = events.filter((e) => !e.startDate);
 ---
 
 {
-	undatedEvents.map((e) => (
-		<ConlistItem
-			event={e}
-			heading={eventHeading}
-			locationFormat={locationFormat}
-		/>
-	))
+	undatedEvents.length > 0 ? (
+		undatedEvents.map((e) => (
+			<ConlistItem
+				event={e}
+				heading={eventHeading}
+				locationFormat={locationFormat}
+			/>
+		))
+	) : (
+		<slot name="empty-message" />
+	)
 }

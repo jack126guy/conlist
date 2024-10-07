@@ -29,12 +29,16 @@ futureEvents.sort((a, b) => (a.startDate > b.startDate ? 1 : -1));
 ---
 
 {
-	futureEvents.map((e) => (
-		<ConlistItem
-			event={e}
-			heading={EventHeading}
-			dateFormat={dateFormat}
-			locationFormat={locationFormat}
-		/>
-	))
+	futureEvents.length > 0 ? (
+		futureEvents.map((e) => (
+			<ConlistItem
+				event={e}
+				heading={EventHeading}
+				dateFormat={dateFormat}
+				locationFormat={locationFormat}
+			/>
+		))
+	) : (
+		<slot name="empty-message" />
+	)
 }

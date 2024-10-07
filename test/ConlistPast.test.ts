@@ -42,4 +42,25 @@ describe('ConlistPast', () => {
 			}
 		});
 	});
+
+	it('renders empty message', async () => {
+		const props = { ...componentProps, events: [] };
+		const slots = { 'empty-message': 'No past events' };
+
+		const fragment = await renderToFragment(ConlistPast, props, slots);
+
+		expect(fragment.text()).to.contain(slots['empty-message']);
+	});
+
+	it('does not render empty message with past events', async () => {
+		const slots = { 'empty-message': 'No past events' };
+
+		const fragment = await renderToFragment(
+			ConlistPast,
+			componentProps,
+			slots
+		);
+
+		expect(fragment.text()).to.not.contain(slots['empty-message']);
+	});
 });

@@ -24,4 +24,25 @@ describe('ConlistFuture', () => {
 			expect(heading.text()).to.equal(futureEvents[i]!.name);
 		});
 	});
+
+	it('renders empty message', async () => {
+		const props = { ...componentProps, events: [] };
+		const slots = { 'empty-message': 'No future events' };
+
+		const fragment = await renderToFragment(ConlistFuture, props, slots);
+
+		expect(fragment.text()).to.contain(slots['empty-message']);
+	});
+
+	it('does not render empty message with future events', async () => {
+		const slots = { 'empty-message': 'No future events' };
+
+		const fragment = await renderToFragment(
+			ConlistFuture,
+			componentProps,
+			slots
+		);
+
+		expect(fragment.text()).to.not.contain(slots['empty-message']);
+	});
 });

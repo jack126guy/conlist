@@ -19,7 +19,7 @@ const events = [
 ];
 const dateCutoff = new Date();
 const dateFormat = new Intl.DateTimeFormat(undefined, { dateStyle: 'short' });
-const locationFormat = (location) => location.locality; // Suppose that the locality is more important
+const locationFormat = (location) => location.locality; // Example format, supposing that the locality is more important
 ---
 
 <h1>Future Events</h1>

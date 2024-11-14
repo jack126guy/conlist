@@ -99,6 +99,32 @@ Conlist components take an array of event objects, where each object follows the
 }
 ```
 
+### Custom Styles
+
+Conlist includes a minimal set of styles, but additional styles can be defined. Each part has a class for easy selection in CSS.
+
+One area you may wish to customize is colors for extra tags, as they do not have any special colors defined by default:
+
+```
+.conlist-extra-tag {
+	background-color: #ccc; /* Set a background color for all extra tags */
+}
+.conlist-extra-tag[data-tag='Special Guest'] {
+	background-color: #8f8; /* Set a background color for a specific extra tag */
+}
+```
+
+Classes include:
+
+* **conlist-item**: The entire event; element has `data-genre` and `data-status` attributes for more specific customization
+* **conlist-name**: Event name
+* **conlist-genre**: Genre
+* **conlist-status**: Status indication
+* **conlist-extra-tag**: Extra tag; element has `data-tag` attribute for more specific customization
+* **conlist-notes**: Additional remarks
+* **conlist-date**: Dates
+* **conlist-location**: Location
+
 ## License
 
 Conlist is available under the MIT License. Refer to `LICENSE.txt` for details.

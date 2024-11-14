@@ -82,12 +82,12 @@ describe('ConlistItem', () => {
 	it('renders extra tags', async () => {
 		const fragment = await renderToFragment(ConlistItem, componentProps);
 
-		const extraTags = fragment('.conlist-tags li[data-extra-tag]');
+		const extraTags = fragment('.conlist-extra-tag');
 		expect(extraTags).to.have.lengthOf(event.extraTags.length);
 		extraTags.each((i, tagElement) => {
 			const extraTag = fragment(tagElement);
 			expect(extraTag.text()).to.contain(event.extraTags[i]);
-			expect(extraTag.data('extra-tag')).to.equal(event.extraTags[i]);
+			expect(extraTag.data('tag')).to.equal(event.extraTags[i]);
 		});
 	});
 

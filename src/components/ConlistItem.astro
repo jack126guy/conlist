@@ -22,7 +22,9 @@ const { event, heading: Heading, dateFormat, locationFormat } = Astro.props;
 	data-status={event.status}
 	data-genre={event.genre}
 >
-	<Heading class="conlist-name">{event.name}</Heading>
+	<div class="conlist-name">
+		<Heading>{event.name}</Heading>
+	</div>
 	{event.genre ? <p class="conlist-genre">({event.genre})</p> : null}
 	<ul class="conlist-tags">
 		{

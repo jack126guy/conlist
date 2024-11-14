@@ -12,7 +12,7 @@ Conlist provides separate components to present lists of events by date, either 
 
 ```
 ---
-import { ConlistFuture } from '@halfgray/conlist';
+import { ConlistFuture, ConlistPast, ConlistUndated } from '@halfgray/conlist';
 
 const events = [
 	// ...

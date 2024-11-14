@@ -58,6 +58,27 @@ The list components take the following props:
 * **dateFormat**: (ConlistPast and ConlistFuture only; optional) Function taking two arguments (start and end dates) and returning a string representation of the date or date range, or alternatively an `Intl.DateTimeFormat`. The default is an `Intl.DateTimeFormat` for the default locale using the "long" date style.
 * **locationFormat**: (Optional) Function taking a location object and returning a string representation of the location. The default is "Venue (Locality)" (assuming both are provided).
 
+In addition, each list component has an `empty-message` slot to optionally display a message if no events are presented through that component.
+
+The `ConlistItem` component can be used directly to render a single event:
+
+```
+---
+import { ConlistItem } from '@halfgray/conlist';
+
+const event = { /* ... */ };
+const dateFormat = new Intl.DateTimeFormat(undefined, { dateStyle: 'short' });
+const locationFormat = (location) => location.locality;
+---
+
+<ConlistItem
+	event={event}
+	heading="h1"
+	dateFormat={dateFormat}
+	locationFormat={locationFormat}
+/>
+```
+
 ### Event Format
 
 Conlist components take an array of event objects, where each object follows the following format:

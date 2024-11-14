@@ -94,8 +94,8 @@ describe('ConlistItem', () => {
 	it('renders notes', async () => {
 		const fragment = await renderToFragment(ConlistItem, componentProps);
 
-		const note = fragment('.conlist-note');
-		expect(note.text()).to.contain(event.notes);
+		const notes = fragment('.conlist-notes');
+		expect(notes.text()).to.contain(event.notes);
 	});
 
 	it('does not render absent notes', async () => {

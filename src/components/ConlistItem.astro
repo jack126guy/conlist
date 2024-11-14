@@ -41,7 +41,7 @@ const { event, heading: Heading, dateFormat, locationFormat } = Astro.props;
 			))
 		}
 	</ul>
-	{event.notes ? <p class="conlist-note">({event.notes})</p> : null}
+	{event.notes ? <p class="conlist-notes">({event.notes})</p> : null}
 	{
 		event.startDate ? (
 			<p class="conlist-date">

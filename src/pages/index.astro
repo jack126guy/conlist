@@ -2,6 +2,7 @@
 import ConlistPast from '../components/ConlistPast.astro';
 import ConlistFuture from '../components/ConlistFuture.astro';
 import ConlistUndated from '../components/ConlistUndated.astro';
+import ConlistSummary from '../components/ConlistSummary.astro';
 import { demoEvents } from '../../test/demo-events';
 
 const dateCutoff = new Date('2012-01-01');
@@ -31,6 +32,8 @@ const dateCutoff = new Date('2012-01-01');
 			yearHeading="h3"
 			eventHeading="h4"
 		/>
+		<h2>Summary</h2>
+		<ConlistSummary events={demoEvents} dateCutoff={dateCutoff} />
 	</body>
 </html>
 

@@ -75,7 +75,7 @@ export const demoEvents: Event[] = [
 			locality: 'Los Angeles, California, USA',
 		},
 		series: 'Examples and Hypotheticals Week',
-		specifier: '2011',
+		specifier: '2012',
 		genre: 'Example',
 		status: 'Attending',
 	},

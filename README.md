@@ -12,7 +12,7 @@ Conlist provides separate components to present lists of events by date, either 
 
 ```
 ---
-import { ConlistFuture, ConlistPast, ConlistUndated } from '@halfgray/conlist';
+import { ConlistFuture, ConlistPast, ConlistUndated, ConlistSummary } from '@halfgray/conlist';
 
 const events = [
 	// ...
@@ -47,15 +47,21 @@ const locationFormat = (location) => location.locality; // Example format, suppo
 	eventHeading="h2"
 	locationFormat={locationFormat}
 />
+
+<h1>Compact Summary</h1>
+<ConlistSummary
+	events={events}
+	dateCutoff={dateCutoff}
+/>
 ```
 
-The list components take the following props:
+The components take the following props (not all props apply to all components):
 
 * **events**: Array of event objects (refer to the following section for the format of the events)
-* **dateCutoff**: (ConlistPast and ConlistFuture only) Date separating past and future events. The start date is used to make the separation, and a start date that exactly matches the cutoff is considered "future." (There is currently no concept of a "present" event.)
+* **dateCutoff**: Date separating past and future events. The start date is used to make the separation, and a start date that exactly matches the cutoff is considered "future." (There is currently no concept of a "present" event.)
 * **eventHeading**: HTML element name (string) or Astro component for the headings. The heading will contain the name of the event.
-* **yearHeading**: (ConlistPast only) HTML element name (string) or Astro component for grouping events by year
-* **dateFormat**: (ConlistPast and ConlistFuture only; optional) Function taking two arguments (start and end dates) and returning a string representation of the date or date range, or alternatively an `Intl.DateTimeFormat`. The default is an `Intl.DateTimeFormat` for the default locale using the "long" date style.
+* **yearHeading**: HTML element name (string) or Astro component for grouping events by year
+* **dateFormat**: (Optional) Function taking two arguments (start and end dates) and returning a string representation of the date or date range, or alternatively an `Intl.DateTimeFormat`. The default is an `Intl.DateTimeFormat` for the default locale using the "long" date style.
 * **locationFormat**: (Optional) Function taking a location object and returning a string representation of the location. The default is "Venue (Locality)" (assuming both are provided).
 
 In addition, each list component has an `empty-message` slot to optionally display a message if no events are presented through that component.
@@ -78,6 +84,8 @@ const locationFormat = (location) => location.locality;
 	locationFormat={locationFormat}
 />
 ```
+
+The `ConlistSummary` component can be used to present a compact summary of events grouped by series.
 
 ### Event Format
 

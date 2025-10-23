@@ -37,19 +37,33 @@ Object.values(seriesEvents).forEach((e) => {
 <ul>
 	{
 		sortedSeries.map((s) => (
-			<li>
-				{`${s}: `}
+			<li class="conlist-summary-series">
+				{/*
+				 * Use prettier-ignore to prevent extra spaces
+				 * https://github.com/withastro/prettier-plugin-astro/issues/308
+				 */}
+				{/* prettier-ignore */}
+				<><span class="conlist-summary-series-name">{s}</span>{': '}</>
 				{seriesEvents[s]!.map((e) => {
 					if (
 						!e.startDate ||
 						e.startDate >= dateCutoff ||
 						e.status === 'Tentative'
 					) {
-						return <i>{e.specifier}</i>;
+						return (
+							// prettier-ignore
+							<i class="conlist-summary-event" data-status={e.status}>{e.specifier}</i>
+						);
 					} else if (e.status === 'Not Attending') {
-						return <s>{e.specifier}</s>;
+						return (
+							// prettier-ignore
+							<s class="conlist-summary-event" data-status={e.status}>{e.specifier}</s>
+						);
 					} else {
-						return <span>{e.specifier}</span>;
+						return (
+							// prettier-ignore
+							<span class="conlist-summary-event" data-status={e.status}>{e.specifier}</span>
+						);
 					}
 				}).reduce((a, v) => (!a ? [v] : [...a, ', ', v]), null)}
 			</li>

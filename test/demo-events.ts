@@ -80,6 +80,17 @@ export const demoEvents: Event[] = [
 		status: 'Attending',
 	},
 	{
+		name: 'Examples and Hypotheticals Week 2013',
+		location: {
+			venue: 'Hotel California',
+			locality: 'Los Angeles, California, USA',
+		},
+		series: 'Examples and Hypotheticals Week',
+		specifier: '2013',
+		genre: 'Example',
+		status: 'Attending',
+	},
+	{
 		name: 'NexYZConf 1',
 		location: {
 			venue: 'Springfield Convention Center',

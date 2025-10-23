@@ -14,11 +14,28 @@ describe('ConlistSummary', () => {
 
 		expect(fragment('ul')).to.have.lengthOf(1);
 
-		const series = Array.from(
-			new Set(demoEvents.map((e) => e.series))
-		).sort();
+		const sortedEvents = [...demoEvents].sort((a, b) => {
+			if (!a.startDate && !b.startDate) {
+				return 0;
+			} else if (!a.startDate) {
+				return 1;
+			} else if (!b.startDate) {
+				return -1;
+			} else {
+				return a.startDate > b.startDate ? 1 : -1;
+			}
+		});
+		const series = [...new Set(demoEvents.map((e) => e.series))].sort();
 		fragment('li').each((i, item) => {
-			expect(fragment(item).text()).to.have.string(`${series[i]}: `);
+			const eventSpecifiers = sortedEvents
+				.filter((e) => e.series === series[i])
+				.map((e) => e.specifier);
+			const expectedText = `${series[i]}: ${eventSpecifiers.join(', ')}`;
+			const normalizedText = fragment(item)
+				.text()
+				.replace(/\s+/g, ' ')
+				.trim();
+			expect(normalizedText).to.equal(expectedText);
 		});
 	});
 });

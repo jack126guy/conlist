@@ -12,7 +12,8 @@ describe('ConlistSummary', () => {
 	it('renders summary', async () => {
 		const fragment = await renderToFragment(ConlistSummary, componentProps);
 
-		expect(fragment('ul')).to.have.lengthOf(1);
+		const rootElement = fragment(':root');
+		expect(rootElement.prop('tagName')).to.equal('UL');
 
 		const sortedEvents = [...demoEvents].sort((a, b) => {
 			if (!a.startDate && !b.startDate) {
@@ -26,16 +27,27 @@ describe('ConlistSummary', () => {
 			}
 		});
 		const series = [...new Set(demoEvents.map((e) => e.series))].sort();
-		fragment('li').each((i, item) => {
-			const eventSpecifiers = sortedEvents
+
+		fragment('li').each((i, itemElement) => {
+			const item = fragment(itemElement);
+
+			expect(item.hasClass('conlist-summary-series')).to.be.true;
+
+			const expectedSpecifiers = sortedEvents
 				.filter((e) => e.series === series[i])
 				.map((e) => e.specifier);
-			const expectedText = `${series[i]}: ${eventSpecifiers.join(', ')}`;
-			const normalizedText = fragment(item)
-				.text()
-				.replace(/\s+/g, ' ')
-				.trim();
+			const expectedText = `${series[i]}: ${expectedSpecifiers.join(', ')}`;
+			const normalizedText = item.text().replace(/\s+/g, ' ').trim();
 			expect(normalizedText).to.equal(expectedText);
+
+			const seriesName = item.find('.conlist-summary-series-name');
+			expect(seriesName.text()).to.equal(series[i]);
+
+			const events = item.find('.conlist-summary-event');
+			const actualSpecifiers = events
+				.toArray()
+				.map((e) => fragment(e).text());
+			expect(actualSpecifiers).to.deep.equal(expectedSpecifiers);
 		});
 	});
 });

@@ -26,6 +26,7 @@ describe('ConlistItem', () => {
 
 		const rootElement = fragment(':root');
 		expect(rootElement.prop('tagName')).to.equal('SECTION');
+		expect(rootElement.hasClass('conlist-item')).to.be.true;
 		expect(rootElement.data('status')).to.equal(event.status);
 		expect(rootElement.data('genre')).to.equal(event.genre);
 	});

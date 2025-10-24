@@ -154,6 +154,13 @@ Classes include:
 * **conlist-date**: Dates
 * **conlist-location**: Location
 
+For ConlistSummary, classes include:
+
+* **conlist-summary**: The entire summary list
+* **conlist-summary-series**: Series name
+* **conlist-summary-event**: Single event; element has `data-status` attribute for more specific customization
+* **conlist-summary-future-event**: Additional class on an event if it is in the future (or undated)
+
 ## License
 
 Conlist is available under the MIT License. Refer to `LICENSE.txt` for details.

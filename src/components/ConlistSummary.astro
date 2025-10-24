@@ -45,26 +45,23 @@ Object.values(seriesEvents).forEach((e) => {
 				{/* prettier-ignore */}
 				<><span class="conlist-summary-series">{s}</span>{': '}</>
 				{seriesEvents[s]!.map((e) => {
+					let EventElement: string;
 					if (
 						!e.startDate ||
 						e.startDate >= dateCutoff ||
 						e.status === 'Tentative'
 					) {
-						return (
-							// prettier-ignore
-							<i class="conlist-summary-event" data-status={e.status}>{e.specifier}</i>
-						);
+						EventElement = 'i';
 					} else if (e.status === 'Not Attending') {
-						return (
-							// prettier-ignore
-							<s class="conlist-summary-event" data-status={e.status}>{e.specifier}</s>
-						);
+						EventElement = 's';
 					} else {
-						return (
-							// prettier-ignore
-							<span class="conlist-summary-event" data-status={e.status}>{e.specifier}</span>
-						);
+						EventElement = 'span';
 					}
+
+					return (
+						// prettier-ignore
+						<EventElement class="conlist-summary-event" data-status={e.status}>{e.specifier}</EventElement>
+					);
 				}).reduce((a, v) => (!a ? [v] : [...a, ', ', v]), null)}
 			</li>
 		))

@@ -60,7 +60,13 @@ Object.values(seriesEvents).forEach((e) => {
 
 					return (
 						// prettier-ignore
-						<EventElement class="conlist-summary-event" data-status={e.status}>{e.specifier}</EventElement>
+						<EventElement class:list={{
+								'conlist-summary-event': true,
+								'conlist-summary-future-event':
+									!e.startDate || e.startDate >= dateCutoff,
+							}} data-status={e.status}>{
+							e.specifier
+						}</EventElement>
 					);
 				}).reduce((a, v) => (!a ? [v] : [...a, ', ', v]), null)}
 			</li>

@@ -34,16 +34,16 @@ Object.values(seriesEvents).forEach((e) => {
 });
 ---
 
-<ul>
+<ul class="conlist-summary">
 	{
 		sortedSeries.map((s) => (
-			<li class="conlist-summary-series">
+			<li>
 				{/*
 				 * Use prettier-ignore to prevent extra spaces
 				 * https://github.com/withastro/prettier-plugin-astro/issues/308
 				 */}
 				{/* prettier-ignore */}
-				<><span class="conlist-summary-series-name">{s}</span>{': '}</>
+				<><span class="conlist-summary-series">{s}</span>{': '}</>
 				{seriesEvents[s]!.map((e) => {
 					if (
 						!e.startDate ||

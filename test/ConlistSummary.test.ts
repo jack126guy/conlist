@@ -18,6 +18,7 @@ describe('ConlistSummary', () => {
 	it('renders list element', () => {
 		const rootElement = fragment(':root');
 		expect(rootElement.prop('tagName')).to.equal('UL');
+		expect(rootElement.hasClass('conlist-summary')).to.be.true;
 	});
 
 	it('renders series items', () => {
@@ -26,9 +27,7 @@ describe('ConlistSummary', () => {
 		fragment('li').each((i, itemElement) => {
 			const item = fragment(itemElement);
 
-			expect(item.hasClass('conlist-summary-series')).to.be.true;
-
-			const seriesName = item.find('.conlist-summary-series-name');
+			const seriesName = item.find('.conlist-summary-series');
 			expect(seriesName.text()).to.equal(series[i]);
 		});
 	});

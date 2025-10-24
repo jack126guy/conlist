@@ -1,25 +1,26 @@
 import ConlistSummary from '../src/components/ConlistSummary.astro';
 import { demoEvents } from './demo-events';
 import { renderToFragment } from './render';
-import { describe, it, expect } from 'vitest';
+import { describe, it, beforeAll, expect } from 'vitest';
 import { type CheerioAPI } from 'cheerio';
 
-const componentProps = {
-	events: demoEvents,
-	dateCutoff: new Date('2012-01-01'),
-};
-
 describe('ConlistSummary', () => {
-	it('renders list element', async () => {
-		const fragment = await renderToFragment(ConlistSummary, componentProps);
+	const componentProps = {
+		events: demoEvents,
+		dateCutoff: new Date('2012-01-01'),
+	};
+	let fragment: CheerioAPI;
 
+	beforeAll(async () => {
+		fragment = await renderToFragment(ConlistSummary, componentProps);
+	});
+
+	it('renders list element', () => {
 		const rootElement = fragment(':root');
 		expect(rootElement.prop('tagName')).to.equal('UL');
 	});
 
-	it('renders series items', async () => {
-		const fragment = await renderToFragment(ConlistSummary, componentProps);
-
+	it('renders series items', () => {
 		const series = [...new Set(demoEvents.map((e) => e.series))].sort();
 
 		fragment('li').each((i, itemElement) => {
@@ -32,9 +33,7 @@ describe('ConlistSummary', () => {
 		});
 	});
 
-	it('renders events in series', async () => {
-		const fragment = await renderToFragment(ConlistSummary, componentProps);
-
+	it('renders events in series', () => {
 		const series = [...new Set(demoEvents.map((e) => e.series))].sort();
 		const sortedEvents = [...demoEvents].sort((a, b) => {
 			if (!a.startDate && !b.startDate) {

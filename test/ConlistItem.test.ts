@@ -1,29 +1,33 @@
 import ConlistItem from '../src/components/ConlistItem.astro';
 import { type Event, type Location } from '../src/event';
 import { renderToFragment } from './render';
-import { describe, it, expect } from 'vitest';
-
-const event = {
-	name: 'Examples and Hypotheticals Week 2010',
-	startDate: new Date('2010-01-25'),
-	endDate: new Date('2010-01-29'),
-	location: {
-		venue: 'Hotel California',
-		locality: 'Los Angeles, California, USA',
-	},
-	series: 'Examples and Hypotheticals Week',
-	specifier: '2010',
-	genre: 'Example',
-	status: 'Attending',
-	notes: 'This is a test.',
-	extraTags: ['Test', 'Testing'],
-} satisfies Event;
-const componentProps = { event, heading: 'h1' };
+import { describe, it, beforeAll, expect } from 'vitest';
+import { type CheerioAPI } from 'cheerio';
 
 describe('ConlistItem', () => {
-	it('renders section element', async () => {
-		const fragment = await renderToFragment(ConlistItem, componentProps);
+	const event = {
+		name: 'Examples and Hypotheticals Week 2010',
+		startDate: new Date('2010-01-25'),
+		endDate: new Date('2010-01-29'),
+		location: {
+			venue: 'Hotel California',
+			locality: 'Los Angeles, California, USA',
+		},
+		series: 'Examples and Hypotheticals Week',
+		specifier: '2010',
+		genre: 'Example',
+		status: 'Attending',
+		notes: 'This is a test.',
+		extraTags: ['Test', 'Testing'],
+	} satisfies Event;
+	const componentProps = { event, heading: 'h1' };
+	let fragment: CheerioAPI;
 
+	beforeAll(async () => {
+		fragment = await renderToFragment(ConlistItem, componentProps);
+	});
+
+	it('renders section element', async () => {
 		const rootElement = fragment(':root');
 		expect(rootElement.prop('tagName')).to.equal('SECTION');
 		expect(rootElement.hasClass('conlist-item')).to.be.true;
@@ -31,17 +35,13 @@ describe('ConlistItem', () => {
 		expect(rootElement.data('genre')).to.equal(event.genre);
 	});
 
-	it('renders heading', async () => {
-		const fragment = await renderToFragment(ConlistItem, componentProps);
-
+	it('renders heading', () => {
 		const heading = fragment(componentProps.heading);
 		expect(heading).to.have.lengthOf(1);
 		expect(heading.text()).to.equal(event.name);
 	});
 
-	it('renders genre', async () => {
-		const fragment = await renderToFragment(ConlistItem, componentProps);
-
+	it('renders genre', () => {
 		const genre = fragment('.conlist-genre');
 		expect(genre.text()).to.contain(event.genre);
 	});
@@ -53,15 +53,13 @@ describe('ConlistItem', () => {
 		};
 		const props = { ...componentProps, event: eventNoGenre };
 
-		const fragment = await renderToFragment(ConlistItem, props);
+		const fragmentNoGenre = await renderToFragment(ConlistItem, props);
 
-		const genre = fragment('.conlist-genre');
+		const genre = fragmentNoGenre('.conlist-genre');
 		expect(genre).to.have.lengthOf(0);
 	});
 
-	it('does not render attending status', async () => {
-		const fragment = await renderToFragment(ConlistItem, componentProps);
-
+	it('does not render attending status', () => {
 		const status = fragment('.conlist-status');
 		expect(status).to.have.lengthOf(0);
 	});
@@ -73,16 +71,14 @@ describe('ConlistItem', () => {
 		};
 		const props = { ...componentProps, event: eventNonAttending };
 
-		const fragment = await renderToFragment(ConlistItem, props);
+		const fragmentNonAttending = await renderToFragment(ConlistItem, props);
 
-		const status = fragment('.conlist-status');
+		const status = fragmentNonAttending('.conlist-status');
 		expect(status).to.have.lengthOf(1);
 		expect(status.text()).to.contain(eventNonAttending.status);
 	});
 
-	it('renders extra tags', async () => {
-		const fragment = await renderToFragment(ConlistItem, componentProps);
-
+	it('renders extra tags', () => {
 		const extraTags = fragment('.conlist-extra-tag');
 		expect(extraTags).to.have.lengthOf(event.extraTags.length);
 		extraTags.each((i, tagElement) => {
@@ -92,9 +88,7 @@ describe('ConlistItem', () => {
 		});
 	});
 
-	it('renders notes', async () => {
-		const fragment = await renderToFragment(ConlistItem, componentProps);
-
+	it('renders notes', () => {
 		const notes = fragment('.conlist-notes');
 		expect(notes.text()).to.contain(event.notes);
 	});
@@ -106,9 +100,9 @@ describe('ConlistItem', () => {
 		};
 		const props = { ...componentProps, event: eventNoNotes };
 
-		const fragment = await renderToFragment(ConlistItem, props);
+		const fragmentNoNotes = await renderToFragment(ConlistItem, props);
 
-		const genre = fragment('.conlist-note');
+		const genre = fragmentNoNotes('.conlist-note');
 		expect(genre).to.have.lengthOf(0);
 	});
 
@@ -116,9 +110,9 @@ describe('ConlistItem', () => {
 		const dateFormat = (startDate: Date, endDate: Date) =>
 			`${startDate} --- ${endDate}`;
 		const props = { ...componentProps, dateFormat };
-		const fragment = await renderToFragment(ConlistItem, props);
+		const fragmentDateFormat = await renderToFragment(ConlistItem, props);
 
-		const date = fragment('.conlist-date');
+		const date = fragmentDateFormat('.conlist-date');
 		expect(date).to.have.lengthOf(1);
 		expect(date.text()).to.contain(
 			dateFormat(event.startDate, event.endDate)
@@ -126,16 +120,16 @@ describe('ConlistItem', () => {
 	});
 
 	it('does not render absent dates', async () => {
-		const eventNoNotes: Event = {
+		const eventNoDates: Event = {
 			...componentProps.event,
 			startDate: undefined,
 			endDate: undefined,
 		};
-		const props = { ...componentProps, event: eventNoNotes };
+		const props = { ...componentProps, event: eventNoDates };
 
-		const fragment = await renderToFragment(ConlistItem, props);
+		const fragmentNoDates = await renderToFragment(ConlistItem, props);
 
-		const date = fragment('.conlist-date');
+		const date = fragmentNoDates('.conlist-date');
 		expect(date).to.have.lengthOf(0);
 	});
 
@@ -143,9 +137,9 @@ describe('ConlistItem', () => {
 		const locationFormat = (location: Location) =>
 			`${location.venue} --- ${location.locality}`;
 		const props = { ...componentProps, locationFormat };
-		const fragment = await renderToFragment(ConlistItem, props);
+		const fragmentLocFormat = await renderToFragment(ConlistItem, props);
 
-		const location = fragment('.conlist-location');
+		const location = fragmentLocFormat('.conlist-location');
 		expect(location).to.have.lengthOf(1);
 		expect(location.text()).to.contain(locationFormat(event.location));
 	});
@@ -157,9 +151,9 @@ describe('ConlistItem', () => {
 		};
 		const props = { ...componentProps, event: eventNoLocation };
 
-		const fragment = await renderToFragment(ConlistItem, props);
+		const fragmentNoLoc = await renderToFragment(ConlistItem, props);
 
-		const location = fragment('.conlist-location');
+		const location = fragmentNoLoc('.conlist-location');
 		expect(location).to.have.lengthOf(0);
 	});
 });
